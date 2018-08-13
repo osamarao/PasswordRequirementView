@@ -21,6 +21,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:checked="false"
+        android:clickable="false"
         android:text="Eight to 16 Chars" />
 
     <CheckBox
@@ -28,6 +29,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:checked="false"
+        android:clickable="false"
         android:text="uppercase" />
 
     <CheckBox
@@ -35,6 +37,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:checked="false"
+        android:clickable="false"
         android:text="lowercase" />
 
     <CheckBox
@@ -42,6 +45,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:checked="false"
+        android:clickable="false"
         android:text="Digit" />
 
     <CheckBox
@@ -49,15 +53,17 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:checked="false"
+        android:clickable="false"
         android:text="Special Chars" />
 
 
     <Button
         android:id="@+id/btnRegister"
-        android:text="Register"
-        android:enabled="false"
-        android:textAllCaps="false"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content" />
+        android:layout_height="wrap_content"
+        android:clickable="false"
+        android:enabled="false"
+        android:text="Register"
+        android:textAllCaps="false" />
 
 </LinearLayout>

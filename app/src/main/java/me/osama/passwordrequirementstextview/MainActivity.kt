@@ -7,7 +7,7 @@ import android.text.TextWatcher
 import android.widget.Button
 import android.widget.CheckBox
 import android.widget.TextView
-import java.util.regex.Pattern
+import me.osama.passwordrequirementstextview.password.passwordSpec
 
 class MainActivity : AppCompatActivity() {
 
@@ -15,20 +15,24 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
-        val password = findViewById<TextView>(R.id.password)
-        val regexList = listOf<Pair<Pattern, CheckBox>>(
-                Pattern.compile("^.{8,16}\$") to findViewById(R.id.checkboxEightCharacters)!!,
-                Pattern.compile("[A-Z]") to findViewById(R.id.checkboxUppercase)!!,
-                Pattern.compile("[a-z]") to findViewById(R.id.checkboxLowercase)!!,
-                Pattern.compile("\\d") to findViewById(R.id.checkboxDigit)!!,
-                Pattern.compile("[~`!@#\$%^&*()+=_\\-{}\\[\\]|:;”’?/<>,.]") to findViewById(R.id.checkboxSpecialChars)!!
+        val passwordView = findViewById<TextView>(R.id.password)
+
+        val checkboxes = listOf<CheckBox>(
+                findViewById(R.id.checkboxEightCharacters),
+                findViewById(R.id.checkboxUppercase),
+                findViewById(R.id.checkboxLowercase),
+                findViewById(R.id.checkboxDigit),
+                findViewById(R.id.checkboxSpecialChars)
         )
 
         val register = findViewById<Button>(R.id.btnRegister)
 
-        password.addTextChangedListener(object : TextWatcher {
-            override fun afterTextChanged(s: Editable?) {
-                register.isEnabled = isRequirementsComplete(regexList, s)
+        passwordView.addTextChangedListener(object : TextWatcher {
+            override fun afterTextChanged(password: Editable?) {
+                register.isEnabled = isValidPassword(password.toString())
+                handleCheckMarks(passwordSpec, checkboxes) {
+                    it.second.isChecked = it.first.matcher(password.toString()).find()
+                }
             }
 
             override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {

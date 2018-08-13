@@ -1,9 +1,9 @@
 package me.osama.passwordrequirementstextview
 
 import android.app.Activity
-import android.text.Editable
 import android.util.Log
 import android.widget.CheckBox
+import me.osama.passwordrequirementstextview.password.*
 import java.util.regex.Pattern
 
 
@@ -21,9 +21,19 @@ fun Activity.logDebug(message: () -> String) {
     }
 }
 
-fun isRequirementsComplete(regexList: List<Pair<Pattern, CheckBox>>, password: Editable?): Boolean {
-    return regexList.map {
-        it.second.isChecked = it.first.matcher(password.toString()).find() // this is a side effect, should not happen
-        return@map it.first.matcher(password.toString()).find()
-    }.all { it }
+fun isValidPassword(password: String): Boolean {
+    return password.let {
+        isWithinEightAndSixteenCharacters(it) and
+                hasUppercaseLetters(it) and
+                hasLowercaseLetters(it) and
+                hasDigits(it) and
+                hasSpecialCharacters(it)
+    }
+}
+
+fun handleCheckMarks(regexList: List<Pattern>, checkboxes: List<CheckBox>, check: (Pair<Pattern, CheckBox>) -> Unit) {
+    if (regexList.size != checkboxes.size) {
+        throw Exception("un equal checkboxes and regexes")
+    }
+    regexList.zip(checkboxes).forEach { check(it) }
 }
